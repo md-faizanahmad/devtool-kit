@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* =================================
+   Theme Variables
+================================= */
+
+:root {
+  /* Background */
+  --background: #ffffff;
+  --foreground: #171717;
+  --surface: #f8faf9;
+
+  /* Text */
+  --text-primary: #171717;
+  --text-secondary: #737373;
+  --text-muted: #a3a3a3;
+
+  /* Brand Colors */
+  --primary: #166534;
+  --primary-hover: #14532d;
+
+  --secondary: #2563eb;
+  --secondary-hover: #1d4ed8;
+
+  /* UI */
+  --border: #e5e5e5;
+  --input: #ffffff;
+  --focus-ring: #166534;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+/* =================================
+   Tailwind Theme Mapping
+================================= */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+
+  --color-border: var(--border);
+}
+
+/* =================================
+   Global Styles
+================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
