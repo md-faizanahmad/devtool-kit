@@ -19,8 +19,8 @@
   --primary: #166534;
   --primary-hover: #14532d;
 
-  --secondary: #2563eb;
-  --secondary-hover: #1d4ed8;
+  --secondary: #02246e;
+  --secondary-hover: #061b57;
 
   /* UI */
   --border: #e5e5e5;
@@ -65,15 +65,18 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#root {
-  min-height: 100%;
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Inter, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+/* Chrome Extension Popup Dimensions */
+
+html,
+body,
+#root {
+  width: 380px;
+  min-height: 320px;
 }
