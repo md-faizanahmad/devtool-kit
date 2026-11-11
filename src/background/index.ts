@@ -1,1 +1,3 @@
-export {};
+chrome.runtime.onInstalled.addListener(() => {
+  console.info('DevTool-Kit installed successfully.');
+});
