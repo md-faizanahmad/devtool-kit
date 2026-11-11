@@ -1,8 +1,13 @@
+import { useAppStore } from '@/stores/app.store';
+
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 function AppLayout({ children }: AppLayoutProps) {
+  const theme = useAppStore((state) => state.settings.theme);
+  const updateSettings = useAppStore((state) => state.updateSettings);
+
   return (
     <main className="min-h-screen bg-background px-5 py-5 text-foreground">
       <header className="flex items-center justify-between border-b border-border pb-4">
@@ -19,7 +24,20 @@ function AppLayout({ children }: AppLayoutProps) {
           </div>
         </div>
 
-        <span className="text-xs text-text-muted">v1.0.0</span>
+        <select
+          aria-label="Select theme"
+          value={theme}
+          onChange={(event) => {
+            void updateSettings({
+              theme: event.target.value as typeof theme,
+            });
+          }}
+          className="rounded-sm border border-border bg-input px-2 py-1 text-xs"
+        >
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
       </header>
 
       <section className="py-6">{children}</section>
