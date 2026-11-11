@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DevTool-Kit",
+  "permissions": ["storage"],
   "version": "1.0.0",
   "description": "A developer productivity toolkit for everyday development tasks.",
   "icons": {
@@ -16,5 +17,9 @@
       "16": "logo.png",
       "32": "logo.png"
     }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
   }
 }

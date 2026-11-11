@@ -18,8 +18,6 @@ function AppLayout({ children }: AppLayoutProps) {
             <p className="text-xs text-text-secondary">Developer utilities</p>
           </div>
         </div>
-
-        <span className="text-xs text-text-muted">v1.0.0</span>
       </header>
 
       <section className="py-6">{children}</section>
