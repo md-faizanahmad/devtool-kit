@@ -16,8 +16,12 @@ export const useAppStore = create<AppState>((set) => ({
   },
 
   loadSettings: async () => {
-    const settings = await settingsStorage.get();
-    set({ settings });
+    try {
+      const settings = await settingsStorage.get();
+      set({ settings });
+    } catch (error) {
+      console.error('Failed to load application settings:', error);
+    }
   },
 
   updateSettings: async (settings) => {
