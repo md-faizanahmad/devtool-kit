@@ -16,5 +16,9 @@
       "16": "logo.png",
       "32": "logo.png"
     }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
   }
 }
