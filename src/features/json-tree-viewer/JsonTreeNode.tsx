@@ -77,7 +77,7 @@ function JsonTreeNode({
       {isExpandable && expanded && (
         <div>
           {entries.map(([key, childValue]) => {
-            const childPath = `${path}.${key}`;
+            const childPath = JSON.stringify([...JSON.parse(path), key]);
 
             return (
               <JsonTreeNode
