@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { AppSettings } from '@/types/settings';
-import { settingsStorage } from '@/shared/settings-storage';
+import { settingsStorage } from '@/utils/settings-storage';
 
 interface AppState {
   appName: string;
