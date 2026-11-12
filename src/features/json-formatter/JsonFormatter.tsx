@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 import {
   ArrowLeft,
@@ -14,9 +15,14 @@ import {
 import AppLayout from '@/components/layout/AppLayout';
 import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
+import JsonTreeViewer from '@/features/json-tree-viewer/JsonTreeViewer';
 import { useJsonFormatter } from './hooks/useJsonFormatter';
 
+type OutputTab = 'formatted' | 'tree';
+
 function JsonFormatter() {
+  const [activeTab, setActiveTab] = useState<OutputTab>('formatted');
+
   const {
     input,
     output,
@@ -33,6 +39,8 @@ function JsonFormatter() {
     uploadFile,
     downloadFile,
   } = useJsonFormatter();
+
+  const treeInput = output || input;
 
   return (
     <AppLayout>
@@ -64,7 +72,6 @@ function JsonFormatter() {
           onSubmit={(event) => event.preventDefault()}
           className="space-y-4"
         >
-          {/* Input */}
           <section className="space-y-2">
             <div className="flex items-center justify-between">
               <label
@@ -109,7 +116,6 @@ function JsonFormatter() {
             />
           </section>
 
-          {/* Actions */}
           <div className="flex flex-wrap gap-2">
             <ActionButton
               type="button"
@@ -159,7 +165,6 @@ function JsonFormatter() {
           </div>
         </form>
 
-        {/* Feedback */}
         {error && <FeedbackMessage variant="error">{error}</FeedbackMessage>}
 
         {validationMessage && (
@@ -168,45 +173,76 @@ function JsonFormatter() {
           </FeedbackMessage>
         )}
 
-        {/* Output */}
-        {output && (
-          <section className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="json-output"
-                className="text-xs font-semibold text-text-primary"
-              >
-                Output
-              </label>
-
-              <div className="flex items-center gap-3">
-                <ActionButton
+        {(output || input.trim()) && (
+          <section className="space-y-3">
+            <div className="flex items-center justify-between border-b border-border">
+              <div className="flex items-center gap-4">
+                <button
                   type="button"
-                  variant="ghost"
-                  icon={<Download size={14} />}
-                  onClick={downloadFile}
+                  onClick={() => setActiveTab('formatted')}
+                  aria-pressed={activeTab === 'formatted'}
+                  className={`border-b-2 px-1 pb-2 text-xs font-medium transition-colors ${
+                    activeTab === 'formatted'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-text-secondary hover:text-foreground'
+                  }`}
                 >
-                  Download
-                </ActionButton>
+                  Formatted JSON
+                </button>
 
-                <ActionButton
+                <button
                   type="button"
-                  variant="ghost"
-                  icon={copied ? <Check size={14} /> : <Copy size={14} />}
-                  onClick={() => void copy()}
+                  onClick={() => setActiveTab('tree')}
+                  aria-pressed={activeTab === 'tree'}
+                  className={`border-b-2 px-1 pb-2 text-xs font-medium transition-colors ${
+                    activeTab === 'tree'
+                      ? 'border-primary text-primary'
+                      : 'border-transparent text-text-secondary hover:text-foreground'
+                  }`}
                 >
-                  {copied ? 'Copied' : 'Copy'}
-                </ActionButton>
+                  Tree View
+                </button>
               </div>
+
+              {activeTab === 'formatted' && output && (
+                <div className="flex items-center gap-3 pb-2">
+                  <ActionButton
+                    type="button"
+                    variant="ghost"
+                    icon={<Download size={14} />}
+                    onClick={downloadFile}
+                  >
+                    Download
+                  </ActionButton>
+
+                  <ActionButton
+                    type="button"
+                    variant="ghost"
+                    icon={copied ? <Check size={14} /> : <Copy size={14} />}
+                    onClick={() => void copy()}
+                  >
+                    {copied ? 'Copied' : 'Copy'}
+                  </ActionButton>
+                </div>
+              )}
             </div>
 
-            <textarea
-              id="json-output"
-              value={output}
-              readOnly
-              spellCheck={false}
-              className="min-h-40 w-full resize-y rounded-md border border-border bg-surface p-3 font-mono text-xs leading-6 outline-none"
-            />
+            {activeTab === 'formatted' &&
+              (output ? (
+                <textarea
+                  id="json-output"
+                  value={output}
+                  readOnly
+                  spellCheck={false}
+                  className="min-h-40 w-full resize-y rounded-md border border-border bg-surface p-3 font-mono text-xs leading-6 outline-none"
+                />
+              ) : (
+                <p className="text-xs text-text-muted">
+                  Format or minify JSON to generate output.
+                </p>
+              ))}
+
+            {activeTab === 'tree' && <JsonTreeViewer input={treeInput} />}
           </section>
         )}
       </div>
