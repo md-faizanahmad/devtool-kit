@@ -124,7 +124,22 @@ export function useJsonFormatter() {
       });
     }
   };
+  const downloadFile = () => {
+    if (!state.output) return;
 
+    const blob = new Blob([state.output], {
+      type: 'application/json',
+    });
+
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+
+    anchor.href = url;
+    anchor.download = 'formatted.json';
+    anchor.click();
+
+    URL.revokeObjectURL(url);
+  };
   const clear = () => {
     setState(initialState);
   };
@@ -138,5 +153,6 @@ export function useJsonFormatter() {
     copy,
     clear,
     uploadFile,
+    downloadFile,
   };
 }
