@@ -1,15 +1,26 @@
-import { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 
 interface JsonTreeNodeProps {
   name: string;
   value: unknown;
   depth?: number;
+  expanded: boolean;
+  onToggle: () => void;
+  expandedNodes: Set<string>;
+  onNodeToggle: (path: string) => void;
+  path: string;
 }
 
-function JsonTreeNode({ name, value, depth = 0 }: JsonTreeNodeProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
-
+function JsonTreeNode({
+  name,
+  value,
+  depth = 0,
+  expanded,
+  onToggle,
+  expandedNodes,
+  onNodeToggle,
+  path,
+}: JsonTreeNodeProps) {
   const isArray = Array.isArray(value);
   const isObject = typeof value === 'object' && value !== null && !isArray;
 
@@ -45,15 +56,12 @@ function JsonTreeNode({ name, value, depth = 0 }: JsonTreeNodeProps) {
         {isExpandable ? (
           <button
             type="button"
-            onClick={() => setIsExpanded((previous) => !previous)}
-            aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${name}`}
+            onClick={onToggle}
+            aria-label={`${expanded ? 'Collapse' : 'Expand'} ${name}`}
+            aria-expanded={expanded}
             className="flex size-5 shrink-0 items-center justify-center text-text-muted hover:text-foreground"
           >
-            {isExpanded ? (
-              <ChevronDown size={14} />
-            ) : (
-              <ChevronRight size={14} />
-            )}
+            {expanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
           </button>
         ) : (
           <span className="w-5 shrink-0" />
@@ -63,21 +71,28 @@ function JsonTreeNode({ name, value, depth = 0 }: JsonTreeNodeProps) {
 
         <span className="text-text-muted">:</span>
 
-        <span className={getValueColor()}>
-          {isExpandable ? preview : preview}
-        </span>
+        <span className={getValueColor()}>{preview}</span>
       </div>
 
-      {isExpandable && isExpanded && (
+      {isExpandable && expanded && (
         <div>
-          {entries.map(([key, childValue]) => (
-            <JsonTreeNode
-              key={key}
-              name={isArray ? `[${key}]` : key}
-              value={childValue}
-              depth={depth + 1}
-            />
-          ))}
+          {entries.map(([key, childValue]) => {
+            const childPath = `${path}.${key}`;
+
+            return (
+              <JsonTreeNode
+                key={childPath}
+                name={isArray ? `[${key}]` : key}
+                value={childValue}
+                depth={depth + 1}
+                path={childPath}
+                expanded={expandedNodes.has(childPath)}
+                onToggle={() => onNodeToggle(childPath)}
+                expandedNodes={expandedNodes}
+                onNodeToggle={onNodeToggle}
+              />
+            );
+          })}
         </div>
       )}
     </div>
