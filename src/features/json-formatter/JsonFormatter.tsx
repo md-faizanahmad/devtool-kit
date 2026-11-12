@@ -4,6 +4,7 @@ import {
   Braces,
   Check,
   Copy,
+  Download,
   Minimize2,
   RotateCcw,
   Sparkles,
@@ -30,6 +31,7 @@ function JsonFormatter() {
     copy,
     clear,
     uploadFile,
+    downloadFile,
   } = useJsonFormatter();
 
   return (
@@ -177,14 +179,25 @@ function JsonFormatter() {
                 Output
               </label>
 
-              <ActionButton
-                type="button"
-                variant="ghost"
-                icon={copied ? <Check size={14} /> : <Copy size={14} />}
-                onClick={() => void copy()}
-              >
-                {copied ? 'Copied' : 'Copy'}
-              </ActionButton>
+              <div className="flex items-center gap-3">
+                <ActionButton
+                  type="button"
+                  variant="ghost"
+                  icon={<Download size={14} />}
+                  onClick={downloadFile}
+                >
+                  Download
+                </ActionButton>
+
+                <ActionButton
+                  type="button"
+                  variant="ghost"
+                  icon={copied ? <Check size={14} /> : <Copy size={14} />}
+                  onClick={() => void copy()}
+                >
+                  {copied ? 'Copied' : 'Copy'}
+                </ActionButton>
+              </div>
             </div>
 
             <textarea
