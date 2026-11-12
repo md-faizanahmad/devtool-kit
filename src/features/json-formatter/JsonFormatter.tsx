@@ -7,12 +7,13 @@ import {
   Minimize2,
   RotateCcw,
   Sparkles,
+  Upload,
 } from 'lucide-react';
 
 import AppLayout from '@/components/layout/AppLayout';
-import { useJsonFormatter } from './hooks/useJsonFormatter';
 import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
+import { useJsonFormatter } from './hooks/useJsonFormatter';
 
 function JsonFormatter() {
   const {
@@ -28,6 +29,7 @@ function JsonFormatter() {
     validate,
     copy,
     clear,
+    uploadFile,
   } = useJsonFormatter();
 
   return (
@@ -56,65 +58,104 @@ function JsonFormatter() {
           </div>
         </header>
 
-        {/* Input */}
-        <section className="space-y-2">
-          <label
-            htmlFor="json-input"
-            className="text-xs font-semibold text-text-primary"
-          >
-            Input JSON
-          </label>
+        <form
+          onSubmit={(event) => event.preventDefault()}
+          className="space-y-4"
+        >
+          {/* Input */}
+          <section className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="json-input"
+                className="text-xs font-semibold text-text-primary"
+              >
+                Input JSON
+              </label>
 
-          <textarea
-            id="json-input"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            placeholder={'{\n  "name": "DevTool-Kit"\n}'}
-            spellCheck={false}
-            className="min-h-40 w-full resize-y rounded-md border border-border bg-input p-3 font-mono text-xs leading-6 outline-none transition-colors placeholder:text-text-muted focus:border-primary focus:ring-1 focus:ring-primary"
-          />
-        </section>
+              <label
+                htmlFor="json-file"
+                className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium text-text-secondary transition-colors hover:text-primary"
+              >
+                <Upload size={14} />
+                Upload file
+              </label>
 
-        {/* Actions */}
-        <div className="flex flex-wrap gap-2">
-          <ActionButton
-            variant="primary"
-            icon={<Sparkles size={14} />}
-            onClick={() => format('pretty')}
-            disabled={!input.trim()}
-          >
-            Format
-          </ActionButton>
+              <input
+                id="json-file"
+                type="file"
+                accept=".json,application/json"
+                className="sr-only"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
 
-          <ActionButton
-            icon={<Minimize2 size={14} />}
-            onClick={() => format('minify')}
-            disabled={!input.trim()}
-          >
-            Minify
-          </ActionButton>
+                  if (file) {
+                    void uploadFile(file);
+                  }
 
-          <ActionButton
-            icon={<Sparkles size={14} />}
-            onClick={repair}
-            disabled={!input.trim()}
-          >
-            Fix JSON
-          </ActionButton>
+                  event.target.value = '';
+                }}
+              />
+            </div>
 
-          <ActionButton onClick={validate} disabled={!input.trim()}>
-            Validate
-          </ActionButton>
+            <textarea
+              id="json-input"
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder={'{\n  "name": "DevTool-Kit"\n}'}
+              spellCheck={false}
+              className="min-h-40 w-full resize-y rounded-md border border-border bg-input p-3 font-mono text-xs leading-6 outline-none transition-colors placeholder:text-text-muted focus:border-primary focus:ring-1 focus:ring-primary"
+            />
+          </section>
 
-          <ActionButton
-            variant="ghost"
-            icon={<RotateCcw size={14} />}
-            onClick={clear}
-            disabled={!input && !output && !error && !validationMessage}
-          >
-            Clear
-          </ActionButton>
-        </div>
+          {/* Actions */}
+          <div className="flex flex-wrap gap-2">
+            <ActionButton
+              type="button"
+              variant="primary"
+              icon={<Sparkles size={14} />}
+              onClick={() => format('pretty')}
+              disabled={!input.trim()}
+            >
+              Format
+            </ActionButton>
+
+            <ActionButton
+              type="button"
+              icon={<Minimize2 size={14} />}
+              onClick={() => format('minify')}
+              disabled={!input.trim()}
+            >
+              Minify
+            </ActionButton>
+
+            <ActionButton
+              type="button"
+              icon={<Sparkles size={14} />}
+              onClick={repair}
+              disabled={!input.trim()}
+            >
+              Fix JSON
+            </ActionButton>
+
+            <ActionButton
+              type="button"
+              onClick={validate}
+              disabled={!input.trim()}
+            >
+              Validate
+            </ActionButton>
+
+            <ActionButton
+              type="button"
+              variant="ghost"
+              icon={<RotateCcw size={14} />}
+              onClick={clear}
+              disabled={!input && !output && !error && !validationMessage}
+            >
+              Clear
+            </ActionButton>
+          </div>
+        </form>
 
         {/* Feedback */}
         {error && <FeedbackMessage variant="error">{error}</FeedbackMessage>}
@@ -137,6 +178,7 @@ function JsonFormatter() {
               </label>
 
               <ActionButton
+                type="button"
                 variant="ghost"
                 icon={copied ? <Check size={14} /> : <Copy size={14} />}
                 onClick={() => void copy()}
