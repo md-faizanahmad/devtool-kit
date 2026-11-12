@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import AppLayout from '@/components/layout/AppLayout';
 import { formatJson, type JsonFormatMode } from './utils/format-json';
+import { repairJson } from '@/features/json-formatter/utils/repair-json';
 
 function JsonFormatter() {
   const [input, setInput] = useState('');
@@ -45,7 +46,21 @@ function JsonFormatter() {
       setError('Unable to copy output to clipboard.');
     }
   };
+  const handleRepair = () => {
+    try {
+      const repaired = repairJson(input);
 
+      // Validate and pretty-print the repaired JSON.
+      const formatted = formatJson(repaired, 'pretty');
+
+      setOutput(formatted);
+      setError('');
+      setCopied(false);
+    } catch {
+      setOutput('');
+      setError('Unable to repair this input. Please check the content.');
+    }
+  };
   return (
     <AppLayout>
       <div className="space-y-6">
@@ -122,7 +137,15 @@ function JsonFormatter() {
             <Minimize2 size={14} />
             Minify
           </button>
-
+          <button
+            type="button"
+            onClick={handleRepair}
+            disabled={!input.trim()}
+            className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-surface disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Sparkles size={14} />
+            Fix JSON
+          </button>
           <button
             type="button"
             onClick={handleClear}
