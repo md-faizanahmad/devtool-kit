@@ -47,6 +47,17 @@ function JsonTreeNode({
       ? `Object(${entries.length})`
       : JSON.stringify(value);
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'ArrowRight' && !expanded) {
+      event.preventDefault();
+      onToggle();
+    }
+
+    if (event.key === 'ArrowLeft' && expanded) {
+      event.preventDefault();
+      onToggle();
+    }
+  };
   return (
     <div>
       <div
@@ -56,6 +67,7 @@ function JsonTreeNode({
         {isExpandable ? (
           <button
             type="button"
+            onKeyDown={handleKeyDown}
             onClick={onToggle}
             aria-label={`${expanded ? 'Collapse' : 'Expand'} ${name}`}
             aria-expanded={expanded}
@@ -87,6 +99,7 @@ function JsonTreeNode({
                 depth={depth + 1}
                 path={childPath}
                 expanded={expandedNodes.has(childPath)}
+
                 onToggle={() => onNodeToggle(childPath)}
                 expandedNodes={expandedNodes}
                 onNodeToggle={onNodeToggle}
