@@ -99,6 +99,32 @@ export function useJsonFormatter() {
     }
   };
 
+  const uploadFile = async (file: File) => {
+    try {
+      if (!file.name.toLowerCase().endsWith('.json')) {
+        throw new Error('Please select a valid .json file.');
+      }
+
+      const content = await file.text();
+
+      updateState({
+        input: content,
+        output: '',
+        error: '',
+        validationMessage: '',
+        isValid: null,
+        copied: false,
+      });
+    } catch (error) {
+      updateState({
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Unable to read the selected file.',
+      });
+    }
+  };
+
   const clear = () => {
     setState(initialState);
   };
@@ -111,5 +137,6 @@ export function useJsonFormatter() {
     validate,
     copy,
     clear,
+    uploadFile,
   };
 }
