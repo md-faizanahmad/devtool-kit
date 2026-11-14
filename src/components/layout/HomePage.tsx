@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Braces, ArrowRight } from 'lucide-react';
+import { Braces, ArrowRight, Binary } from 'lucide-react';
 import AppLayout from './AppLayout';
 
 export default function HomePage() {
@@ -27,6 +27,25 @@ export default function HomePage() {
               <h3 className="text-sm font-medium">JSON Formatter</h3>
               <p className="mt-1 text-xs text-text-secondary">
                 Format, validate and minify JSON.
+              </p>
+            </div>
+          </div>
+
+          <ArrowRight
+            size={16}
+            className="text-text-muted transition-transform group-hover:translate-x-1"
+          />
+        </Link>
+        <Link
+          to="/base64-converter"
+          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
+        >
+          <div className="flex items-center gap-3">
+            <Binary size={20} className="text-primary" />
+            <div>
+              <h3 className="text-sm font-medium">Base64 Converter</h3>
+              <p className="mt-1 text-xs text-text-secondary">
+                Encode and decode Base64 text.
               </p>
             </div>
           </div>
