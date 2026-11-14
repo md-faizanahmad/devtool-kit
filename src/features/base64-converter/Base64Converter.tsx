@@ -1,62 +1,24 @@
-import { useState } from 'react';
-import { ArrowLeft, Binary, Copy, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router';
+import { ArrowLeft, Binary, Copy, RotateCcw } from 'lucide-react';
 
 import AppLayout from '@/components/layout/AppLayout';
 import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
-import { encodeBase64, decodeBase64 } from './utils/base64';
-
-type ConversionMode = 'encode' | 'decode';
+import { useBase64Converter } from './hook/useBase64Converter';
 
 function Base64Converter() {
-  const [mode, setMode] = useState<ConversionMode>('encode');
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  const convert = () => {
-    try {
-      const result =
-        mode === 'encode' ? encodeBase64(input) : decodeBase64(input);
-
-      setOutput(result);
-      setError('');
-      setCopied(false);
-    } catch {
-      setOutput('');
-      setError(
-        mode === 'encode'
-          ? 'Unable to encode the provided text.'
-          : 'Invalid Base64 input or unsupported UTF-8 data.',
-      );
-    }
-  };
-
-  const copyOutput = async () => {
-    try {
-      await navigator.clipboard.writeText(output);
-      setCopied(true);
-      setError('');
-    } catch {
-      setError('Unable to copy output to clipboard.');
-    }
-  };
-
-  const clear = () => {
-    setInput('');
-    setOutput('');
-    setError('');
-    setCopied(false);
-  };
-
-  const changeMode = (nextMode: ConversionMode) => {
-    setMode(nextMode);
-    setOutput('');
-    setError('');
-    setCopied(false);
-  };
+  const {
+    mode,
+    input,
+    output,
+    error,
+    copied,
+    updateInput,
+    changeMode,
+    convert,
+    copyOutput,
+    clear,
+  } = useBase64Converter();
 
   return (
     <AppLayout>
@@ -113,12 +75,7 @@ function Base64Converter() {
           <textarea
             id="base64-input"
             value={input}
-            onChange={(event) => {
-              setInput(event.target.value);
-              setError('');
-              setOutput('');
-              setCopied(false);
-            }}
+            onChange={(event) => updateInput(event.target.value)}
             placeholder={
               mode === 'encode'
                 ? 'Enter text to encode...'
