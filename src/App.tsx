@@ -5,6 +5,7 @@ import JsonFormatter from './features/json-formatter/JsonFormatter';
 import { useAppStore } from './stores/app.store';
 import Base64Converter from './features/base64-converter/Base64Converter';
 import UrlEncoder from './features/url-encoder/UrlEncoder';
+import UuidGenerator from './features/uuid-generator/UuidGenerator';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -19,6 +20,7 @@ function App() {
       <Route path="/json-formatter" element={<JsonFormatter />} />
       <Route path="/base64-converter" element={<Base64Converter />} />
       <Route path="/url-encoder" element={<UrlEncoder />} />
+      <Route path="/uuid-generator" element={<UuidGenerator />} />
     </Routes>
   );
 }
