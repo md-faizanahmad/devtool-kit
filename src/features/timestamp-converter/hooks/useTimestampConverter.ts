@@ -7,93 +7,91 @@ import {
 
 export type TimestampMode = 'timestamp-to-date' | 'date-to-timestamp';
 
+interface TimestampConverterState {
+  mode: TimestampMode;
+  unit: TimestampUnit;
+  input: string;
+  output: string;
+  error: string;
+  copied: boolean;
+}
+
+const initialState: TimestampConverterState = {
+  mode: 'timestamp-to-date',
+  unit: 'seconds',
+  input: '',
+  output: '',
+  error: '',
+  copied: false,
+};
+
 export function useTimestampConverter() {
-  const [mode, setMode] = useState<TimestampMode>('timestamp-to-date');
-  const [unit, setUnit] = useState<TimestampUnit>('seconds');
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-  const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
-
-  const updateInput = (value: string) => {
-    setInput(value);
-    setOutput('');
-    setError('');
-    setCopied(false);
+  const [state, setState] = useState(initialState);
+  const updateState = (updates: Partial<TimestampConverterState>) => {
+    setState((previous) => ({ ...previous, ...updates }));
   };
-
-  const changeMode = (nextMode: TimestampMode) => {
-    setMode(nextMode);
-    setInput('');
-    setOutput('');
-    setError('');
-    setCopied(false);
+  const updateInput = (input: string) => {
+    updateState({ input, output: '', error: '', copied: false });
   };
-
-  const changeUnit = (nextUnit: TimestampUnit) => {
-    setUnit(nextUnit);
-    setOutput('');
-    setError('');
-    setCopied(false);
+  const changeMode = (mode: TimestampMode) => {
+    setState({ ...initialState, mode });
+  };
+  const changeUnit = (unit: TimestampUnit) => {
+    updateState({ unit, output: '', error: '', copied: false });
   };
 
   const convert = () => {
     try {
-      if (!input.trim()) {
+      if (!state.input.trim()) {
         throw new Error('Please enter a value to convert.');
       }
 
-      let result: string;
+      let output: string;
 
-      if (mode === 'timestamp-to-date') {
-        const timestamp = Number(input);
+      if (state.mode === 'timestamp-to-date') {
+        const timestamp = Number(state.input);
 
         if (!Number.isFinite(timestamp)) {
           throw new Error('Enter a valid numeric timestamp.');
         }
 
-        result = timestampToDate(timestamp, unit).toISOString();
+        output = timestampToDate(timestamp, state.unit).toISOString();
       } else {
-        result = String(dateToTimestamp(input, unit));
+        output = String(dateToTimestamp(state.input, state.unit));
       }
 
-      setOutput(result);
-      setError('');
-      setCopied(false);
+      updateState({ output, error: '', copied: false });
     } catch (error) {
-      setOutput('');
-      setError(
-        error instanceof Error
-          ? error.message
-          : 'Unable to convert the provided value.',
-      );
+      updateState({
+        output: '',
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Unable to convert the provided value.',
+      });
     }
   };
 
   const copyOutput = async () => {
     try {
-      await navigator.clipboard.writeText(output);
-      setCopied(true);
-      setError('');
+      await navigator.clipboard.writeText(state.output);
+      updateState({ copied: true, error: '' });
     } catch {
-      setError('Unable to copy output to clipboard.');
+      updateState({ error: 'Unable to copy output to clipboard.' });
     }
   };
 
   const clear = () => {
-    setInput('');
-    setOutput('');
-    setError('');
-    setCopied(false);
+    updateState({
+      input: '',
+      output: '',
+      error: '',
+      copied: false,
+    });
   };
 
   return {
-    mode,
-    unit,
-    input,
-    output,
-    error,
-    copied,
+    ...state,
     updateInput,
     changeMode,
     changeUnit,
