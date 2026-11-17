@@ -1,5 +1,12 @@
 import { Link } from 'react-router';
-import { Braces, ArrowRight, Binary, LinkIcon, Dices } from 'lucide-react';
+import {
+  Braces,
+  ArrowRight,
+  Binary,
+  LinkIcon,
+  Dices,
+  CalendarClock,
+} from 'lucide-react';
 import AppLayout from './AppLayout';
 
 export default function HomePage() {
@@ -84,6 +91,25 @@ export default function HomePage() {
               <h3 className="text-sm font-medium">UUID Generator</h3>
               <p className="mt-1 text-xs text-text-secondary">
                 Generate unique UUID v4 identifiers.
+              </p>
+            </div>
+          </div>
+
+          <ArrowRight
+            size={16}
+            className="text-text-muted transition-transform group-hover:translate-x-1"
+          />
+        </Link>
+        <Link
+          to="/timestamp-converter"
+          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
+        >
+          <div className="flex items-center gap-3">
+            <CalendarClock size={20} className="text-primary" />
+            <div>
+              <h3 className="text-sm font-medium">Timestamp Converter</h3>
+              <p className="mt-1 text-xs text-text-secondary">
+                Convert Unix timestamps and dates.
               </p>
             </div>
           </div>
