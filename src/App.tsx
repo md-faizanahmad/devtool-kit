@@ -6,6 +6,7 @@ import { useAppStore } from './stores/app.store';
 import Base64Converter from './features/base64-converter/Base64Converter';
 import UrlEncoder from './features/url-encoder/UrlEncoder';
 import UuidGenerator from './features/uuid-generator/UuidGenerator';
+import TimestampConverter from './features/timestamp-converter/TimestampConverter';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -21,6 +22,7 @@ function App() {
       <Route path="/base64-converter" element={<Base64Converter />} />
       <Route path="/url-encoder" element={<UrlEncoder />} />
       <Route path="/uuid-generator" element={<UuidGenerator />} />
+      <Route path="/timestamp-converter" element={<TimestampConverter />} />
     </Routes>
   );
 }
