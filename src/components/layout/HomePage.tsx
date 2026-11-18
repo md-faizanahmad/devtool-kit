@@ -6,6 +6,7 @@ import {
   LinkIcon,
   Dices,
   CalendarClock,
+  Palette,
   CaseSensitive,
 } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -130,6 +131,24 @@ export default function HomePage() {
               <h3 className="text-sm font-medium">Text Case Converter</h3>
               <p className="mt-1 text-xs text-text-secondary">
                 Transform text into different casing formats.
+              </p>
+            </div>
+          </div>
+          <ArrowRight
+            size={16}
+            className="text-text-muted transition-transform group-hover:translate-x-1"
+          />
+        </Link>
+        <Link
+          to="/color-converter"
+          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
+        >
+          <div className="flex items-center gap-3">
+            <Palette size={20} className="text-primary" />
+            <div>
+              <h3 className="text-sm font-medium">Color Converter</h3>
+              <p className="mt-1 text-xs text-text-secondary">
+                Convert HEX colors to RGB and HSL.
               </p>
             </div>
           </div>
