@@ -9,6 +9,7 @@ import UuidGenerator from './features/uuid-generator/UuidGenerator';
 import TimestampConverter from './features/timestamp-converter/TimestampConverter';
 import ColorConverter from './features/color-converter/ColorConverter';
 import TextCaseConverter from './features/text-case-converter/TextCaseConverter';
+import PasswordGenerator from './features/password-generator/PasswordGenerator';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -27,6 +28,7 @@ function App() {
       <Route path="/timestamp-converter" element={<TimestampConverter />} />
       <Route path="/color-converter" element={<ColorConverter />} />
       <Route path="/text-case-converter" element={<TextCaseConverter />} />
+      <Route path="/password-generator" element={<PasswordGenerator />} />
     </Routes>
   );
 }
