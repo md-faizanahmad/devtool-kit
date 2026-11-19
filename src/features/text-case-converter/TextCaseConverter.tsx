@@ -4,6 +4,7 @@ import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
 import { useTextCaseConverter } from './hooks/useTextCaseConverter';
 import type { TextCase } from './utils/text-case';
+import BackToTools from '@/shared/BackToTools';
 
 const caseOptions: { value: TextCase; label: string }[] = [
   { value: 'uppercase', label: 'UPPERCASE' },
@@ -23,6 +24,7 @@ function TextCaseConverter() {
   return (
     <AppLayout>
       <div className="space-y-5">
+        <BackToTools />
         <div>
           <h2 className="text-base font-semibold">Text Case Converter</h2>
           <p className="mt-1 text-xs text-text-secondary">

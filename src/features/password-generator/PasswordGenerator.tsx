@@ -3,6 +3,7 @@ import AppLayout from '@/components/layout/AppLayout';
 import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
 import { usePasswordGenerator } from './hooks/usePasswordGenerator';
+import BackToTools from '@/shared/BackToTools';
 
 function PasswordGenerator() {
   const {
@@ -26,6 +27,7 @@ function PasswordGenerator() {
   return (
     <AppLayout>
       <div className="space-y-5">
+        <BackToTools />
         <div>
           <h2 className="text-base font-semibold">Password Generator</h2>
           <p className="mt-1 text-xs text-text-secondary">

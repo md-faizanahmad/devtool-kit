@@ -1,10 +1,10 @@
-import { Link } from 'react-router';
-import { ArrowLeft, CalendarClock, Copy, RotateCcw } from 'lucide-react';
+import { CalendarClock, Copy, RotateCcw } from 'lucide-react';
 
 import AppLayout from '@/components/layout/AppLayout';
 import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
 import { useTimestampConverter } from './hooks/useTimestampConverter';
+import BackToTools from '@/shared/BackToTools';
 
 function TimestampConverter() {
   const {
@@ -26,14 +26,7 @@ function TimestampConverter() {
     <AppLayout>
       <div className="space-y-6">
         <header className="space-y-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-xs font-medium text-text-secondary transition-colors hover:text-primary"
-          >
-            <ArrowLeft size={14} />
-            Back to tools
-          </Link>
-
+          <BackToTools />
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-surface">
               <CalendarClock size={20} className="text-primary" />

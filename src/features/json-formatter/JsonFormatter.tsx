@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
 import {
-  ArrowLeft,
   Braces,
   Check,
   Copy,
@@ -17,6 +15,7 @@ import ActionButton from '@/shared/ActionButton';
 import FeedbackMessage from '@/shared/FeedbackMessage';
 import JsonTreeViewer from '@/features/json-tree-viewer/JsonTreeViewer';
 import { useJsonFormatter } from './hooks/useJsonFormatter';
+import BackToTools from '@/shared/BackToTools';
 
 type OutputTab = 'formatted' | 'tree';
 
@@ -46,14 +45,7 @@ function JsonFormatter() {
     <AppLayout>
       <div className="space-y-6">
         <header className="space-y-4">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-xs font-medium text-text-secondary transition-colors hover:text-primary"
-          >
-            <ArrowLeft size={14} />
-            Back to tools
-          </Link>
-
+          <BackToTools />
           <div className="flex items-center gap-3">
             <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-surface">
               <Braces size={20} className="text-primary" />
