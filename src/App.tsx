@@ -11,6 +11,7 @@ import ColorConverter from './features/color-converter/ColorConverter';
 import TextCaseConverter from './features/text-case-converter/TextCaseConverter';
 import PasswordGenerator from './features/password-generator/PasswordGenerator';
 import RegexTester from './features/regex-tester/RegexTester';
+import MarkdownPreviewer from './features/markdown-previewer/MarkdownPreviewer';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -31,6 +32,7 @@ function App() {
       <Route path="/text-case-converter" element={<TextCaseConverter />} />
       <Route path="/password-generator" element={<PasswordGenerator />} />
       <Route path="/regex-tester" element={<RegexTester />} />
+      <Route path="/markdown-previewer" element={<MarkdownPreviewer />} />
     </Routes>
   );
 }

@@ -10,6 +10,7 @@ import {
   CaseSensitive,
   KeyRound,
   Regex,
+  FileText,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -76,6 +77,12 @@ const tools: Tool[] = [
       'Test regular expressions and inspect matches and capture groups.',
     path: '/regex-tester',
     icon: Regex,
+  },
+  {
+    title: 'Markdown Previewer',
+    description: 'Write Markdown and preview formatted content instantly.',
+    path: '/markdown-previewer',
+    icon: FileText,
   },
 ];
 
