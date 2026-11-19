@@ -8,8 +8,68 @@ import {
   CalendarClock,
   Palette,
   CaseSensitive,
+  KeyRound,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
+
+interface Tool {
+  title: string;
+  description: string;
+  path: string;
+  icon: LucideIcon;
+}
+
+const tools: Tool[] = [
+  {
+    title: 'JSON Formatter',
+    description: 'Format, validate and minify JSON.',
+    path: '/json-formatter',
+    icon: Braces,
+  },
+  {
+    title: 'Base64 Converter',
+    description: 'Encode and decode Base64 text.',
+    path: '/base64-converter',
+    icon: Binary,
+  },
+  {
+    title: 'URL Encoder',
+    description: 'Encode and decode URL components.',
+    path: '/url-encoder',
+    icon: LinkIcon,
+  },
+  {
+    title: 'UUID Generator',
+    description: 'Generate unique UUID v4 identifiers.',
+    path: '/uuid-generator',
+    icon: Dices,
+  },
+  {
+    title: 'Timestamp Converter',
+    description: 'Convert Unix timestamps and dates.',
+    path: '/timestamp-converter',
+    icon: CalendarClock,
+  },
+  {
+    title: 'Text Case Converter',
+    description: 'Transform text into different casing formats.',
+    path: '/text-case-converter',
+    icon: CaseSensitive,
+  },
+  {
+    title: 'Color Converter',
+    description: 'Convert HEX colors to RGB and HSL.',
+    path: '/color-converter',
+    icon: Palette,
+  },
+  {
+    title: 'Password Generator',
+    description: 'Generate secure passwords with customizable options.',
+    path: '/password-generator',
+    icon: KeyRound,
+  },
+];
 
 export default function HomePage() {
   return (
@@ -24,139 +84,30 @@ export default function HomePage() {
         Your everyday developer utilities in one place.
       </p>
 
-      <div className="mt-6">
-        <Link
-          to="/json-formatter"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <Braces size={20} className="text-primary" />
+      <div className="mt-6 space-y-3">
+        {tools.map(({ title, description, path, icon: Icon }) => (
+          <Link
+            key={path}
+            to={path}
+            className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
+          >
+            <div className="flex items-center gap-3">
+              <Icon size={20} className="text-primary" />
 
-            <div>
-              <h3 className="text-sm font-medium">JSON Formatter</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Format, validate and minify JSON.
-              </p>
+              <div>
+                <h3 className="text-sm font-medium">{title}</h3>
+                <p className="mt-1 text-xs text-text-secondary">
+                  {description}
+                </p>
+              </div>
             </div>
-          </div>
 
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
-        <Link
-          to="/base64-converter"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <Binary size={20} className="text-primary" />
-            <div>
-              <h3 className="text-sm font-medium">Base64 Converter</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Encode and decode Base64 text.
-              </p>
-            </div>
-          </div>
-
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
-        <Link
-          to="/url-encoder"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <LinkIcon size={20} className="text-primary" />
-            <div>
-              <h3 className="text-sm font-medium">URL Encoder</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Encode and decode URL components.
-              </p>
-            </div>
-          </div>
-
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
-        <Link
-          to="/uuid-generator"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <Dices size={20} className="text-primary" />
-            <div>
-              <h3 className="text-sm font-medium">UUID Generator</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Generate unique UUID v4 identifiers.
-              </p>
-            </div>
-          </div>
-
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
-        <Link
-          to="/timestamp-converter"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <CalendarClock size={20} className="text-primary" />
-            <div>
-              <h3 className="text-sm font-medium">Timestamp Converter</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Convert Unix timestamps and dates.
-              </p>
-            </div>
-          </div>
-
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
-        <Link
-          to="/text-case-converter"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <CaseSensitive size={20} className="text-primary" />
-            <div>
-              <h3 className="text-sm font-medium">Text Case Converter</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Transform text into different casing formats.
-              </p>
-            </div>
-          </div>
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
-        <Link
-          to="/color-converter"
-          className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-        >
-          <div className="flex items-center gap-3">
-            <Palette size={20} className="text-primary" />
-            <div>
-              <h3 className="text-sm font-medium">Color Converter</h3>
-              <p className="mt-1 text-xs text-text-secondary">
-                Convert HEX colors to RGB and HSL.
-              </p>
-            </div>
-          </div>
-          <ArrowRight
-            size={16}
-            className="text-text-muted transition-transform group-hover:translate-x-1"
-          />
-        </Link>
+            <ArrowRight
+              size={16}
+              className="text-text-muted transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+        ))}
       </div>
     </AppLayout>
   );
