@@ -9,6 +9,7 @@ import {
   Palette,
   CaseSensitive,
   KeyRound,
+  Regex,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -68,6 +69,13 @@ const tools: Tool[] = [
     description: 'Generate secure passwords with customizable options.',
     path: '/password-generator',
     icon: KeyRound,
+  },
+  {
+    title: 'Regex Tester',
+    description:
+      'Test regular expressions and inspect matches and capture groups.',
+    path: '/regex-tester',
+    icon: Regex,
   },
 ];
 

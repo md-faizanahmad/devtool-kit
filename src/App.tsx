@@ -10,6 +10,7 @@ import TimestampConverter from './features/timestamp-converter/TimestampConverte
 import ColorConverter from './features/color-converter/ColorConverter';
 import TextCaseConverter from './features/text-case-converter/TextCaseConverter';
 import PasswordGenerator from './features/password-generator/PasswordGenerator';
+import RegexTester from './features/regex-tester/RegexTester';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -29,6 +30,7 @@ function App() {
       <Route path="/color-converter" element={<ColorConverter />} />
       <Route path="/text-case-converter" element={<TextCaseConverter />} />
       <Route path="/password-generator" element={<PasswordGenerator />} />
+      <Route path="/regex-tester" element={<RegexTester />} />
     </Routes>
   );
 }
