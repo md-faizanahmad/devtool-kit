@@ -3,89 +3,124 @@ import { formatHtml, minifyHtml, validateHtml } from '../utils/html';
 
 type HtmlAction = 'format' | 'minify' | 'validate';
 
+interface HtmlFormatterState {
+  input: string;
+  output: string;
+  error: string;
+  success: string;
+  copied: boolean;
+  isProcessing: boolean;
+}
+
+const initialState: HtmlFormatterState = {
+  input: '',
+  output: '',
+  error: '',
+  success: '',
+  copied: false,
+  isProcessing: false,
+};
+
 export const useHtmlFormatter = () => {
-  const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [copied, setCopied] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [state, setState] = useState<HtmlFormatterState>(initialState);
+
+  const updateState = (updates: Partial<HtmlFormatterState>) => {
+    setState((current) => ({
+      ...current,
+      ...updates,
+    }));
+  };
 
   const updateInput = (value: string) => {
-    setInput(value);
-    setError('');
-    setSuccess('');
-    setCopied(false);
+    updateState({
+      input: value,
+      error: '',
+      success: '',
+      copied: false,
+    });
   };
 
   const processHtml = async (action: HtmlAction) => {
-    if (!input.trim()) {
-      setOutput('');
-      setError('Enter HTML markup first.');
-      setSuccess('');
+    if (!state.input.trim()) {
+      updateState({
+        output: '',
+        error: 'Enter HTML markup first.',
+        success: '',
+      });
       return;
     }
 
-    setIsProcessing(true);
-    setError('');
-    setSuccess('');
-    setCopied(false);
+    updateState({
+      isProcessing: true,
+      error: '',
+      success: '',
+      copied: false,
+    });
 
     try {
       if (action === 'validate') {
-        const result = await validateHtml(input);
+        const result = await validateHtml(state.input);
 
-        if (!result.isValid) {
-          setError(result.error ?? 'Invalid HTML markup.');
-          return;
-        }
-
-        setSuccess('HTML syntax parsed successfully.');
+        updateState(
+          result.isValid
+            ? { success: 'HTML syntax parsed successfully.' }
+            : { error: result.error ?? 'Invalid HTML markup.' },
+        );
         return;
       }
 
       const result =
         action === 'format'
-          ? await formatHtml({ html: input })
-          : await minifyHtml(input);
+          ? await formatHtml({ html: state.input })
+          : await minifyHtml(state.input);
 
       if (result.error) {
-        setError(result.error);
-        setOutput('');
+        updateState({
+          output: '',
+          error: result.error,
+        });
         return;
       }
 
-      setOutput(result.output);
-      setSuccess(
-        action === 'format'
-          ? 'HTML formatted successfully.'
-          : 'HTML minified successfully.',
-      );
+      updateState({
+        output: result.output,
+        success:
+          action === 'format'
+            ? 'HTML formatted successfully.'
+            : 'HTML minified successfully.',
+      });
     } catch {
-      setError('Something went wrong while processing HTML.');
-      setOutput('');
+      updateState({
+        output: '',
+        error: 'Something went wrong while processing HTML.',
+      });
     } finally {
-      setIsProcessing(false);
+      updateState({ isProcessing: false });
     }
   };
 
   const copyOutput = async () => {
-    if (!output) return;
+    if (!state.output) return;
 
     try {
-      await navigator.clipboard.writeText(output);
-      setCopied(true);
-      setError('');
+      await navigator.clipboard.writeText(state.output);
+
+      updateState({
+        copied: true,
+        error: '',
+      });
     } catch {
-      setCopied(false);
-      setError('Unable to copy HTML to clipboard.');
+      updateState({
+        copied: false,
+        error: 'Unable to copy HTML to clipboard.',
+      });
     }
   };
 
   const downloadOutput = () => {
-    if (!output) return;
+    if (!state.output) return;
 
-    const blob = new Blob([output], {
+    const blob = new Blob([state.output], {
       type: 'text/html;charset=utf-8',
     });
 
@@ -100,23 +135,14 @@ export const useHtmlFormatter = () => {
   };
 
   const clear = () => {
-    setInput('');
-    setOutput('');
-    setError('');
-    setSuccess('');
-    setCopied(false);
+    setState(initialState);
   };
 
   return {
     state: {
-      input,
-      output,
-      error,
-      success,
-      copied,
-      isProcessing,
-      hasInput: Boolean(input.trim()),
-      hasOutput: Boolean(output),
+      ...state,
+      hasInput: Boolean(state.input.trim()),
+      hasOutput: Boolean(state.output),
     },
     updateInput,
     format: () => processHtml('format'),
