@@ -12,6 +12,7 @@ import {
   Regex,
   FileText,
   CodeXml,
+  FileCode,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -90,6 +91,12 @@ const tools: Tool[] = [
     description: 'Format, minify, and validate HTML markup.',
     path: '/html-formatter',
     icon: CodeXml,
+  },
+  {
+    title: 'CSS Formatter',
+    description: 'Format, minify, and validate CSS stylesheets.',
+    path: '/css-formatter',
+    icon: FileCode,
   },
 ];
 
