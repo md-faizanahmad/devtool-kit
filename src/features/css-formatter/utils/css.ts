@@ -1,6 +1,5 @@
 import * as prettier from 'prettier';
 import { transform } from 'lightningcss';
-import { Buffer } from 'buffer';
 
 export interface CssFormatOptions {
   css: string;
@@ -58,7 +57,7 @@ export const minifyCss = async (css: string): Promise<CssFormatResult> => {
   try {
     const result = transform({
       filename: 'style.css',
-      code: Buffer.from(css),
+      code: new TextEncoder().encode(css),
       minify: true,
     });
 
