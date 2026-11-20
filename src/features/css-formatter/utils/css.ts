@@ -1,4 +1,6 @@
 import * as prettier from 'prettier';
+import { transform } from 'lightningcss';
+import { Buffer } from 'buffer';
 
 export interface CssFormatOptions {
   css: string;
@@ -33,10 +35,7 @@ export const formatCss = async ({
       useTabs,
     });
 
-    return {
-      output,
-      error: null,
-    };
+    return { output, error: null };
   } catch (error) {
     return {
       output: '',
@@ -46,7 +45,7 @@ export const formatCss = async ({
 };
 
 /**
- * Minifies CSS by removing unnecessary whitespace and comments.
+ * Minifies CSS using Lightning CSS.
  */
 export const minifyCss = async (css: string): Promise<CssFormatResult> => {
   if (!css.trim()) {
@@ -57,19 +56,14 @@ export const minifyCss = async (css: string): Promise<CssFormatResult> => {
   }
 
   try {
-    const formatted = await prettier.format(css, {
-      parser: 'css',
+    const result = transform({
+      filename: 'style.css',
+      code: Buffer.from(css),
+      minify: true,
     });
 
-    const output = formatted
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\s+/g, ' ')
-      .replace(/\s*([{}:;,>+~])\s*/g, '$1')
-      .replace(/;}/g, '}')
-      .trim();
-
     return {
-      output,
+      output: new TextDecoder().decode(result.code),
       error: null,
     };
   } catch (error) {
