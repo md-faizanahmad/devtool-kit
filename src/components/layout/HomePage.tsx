@@ -11,6 +11,7 @@ import {
   KeyRound,
   Regex,
   FileText,
+  CodeXml,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -83,6 +84,12 @@ const tools: Tool[] = [
     description: 'Write Markdown and preview formatted content instantly.',
     path: '/markdown-previewer',
     icon: FileText,
+  },
+  {
+    title: 'HTML Formatter',
+    description: 'Format, minify, and validate HTML markup.',
+    path: '/html-formatter',
+    icon: CodeXml,
   },
 ];
 
