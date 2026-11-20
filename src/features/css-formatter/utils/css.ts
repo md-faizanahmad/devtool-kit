@@ -1,5 +1,5 @@
 import * as prettier from 'prettier';
-import { transform } from 'lightningcss';
+import { minify } from 'csso';
 
 export interface CssFormatOptions {
   css: string;
@@ -44,7 +44,7 @@ export const formatCss = async ({
 };
 
 /**
- * Minifies CSS using Lightning CSS.
+ * Minifies CSS using CSso.
  */
 export const minifyCss = async (css: string): Promise<CssFormatResult> => {
   if (!css.trim()) {
@@ -55,14 +55,10 @@ export const minifyCss = async (css: string): Promise<CssFormatResult> => {
   }
 
   try {
-    const result = transform({
-      filename: 'style.css',
-      code: new TextEncoder().encode(css),
-      minify: true,
-    });
+    const result = minify(css);
 
     return {
-      output: new TextDecoder().decode(result.code),
+      output: result.css,
       error: null,
     };
   } catch (error) {
