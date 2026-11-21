@@ -2,57 +2,79 @@ import { useCallback, useState } from 'react';
 import { decodeJwt } from '../utils/jwt';
 import type { JwtDecodeResult } from '../jwt.types';
 
-interface UseJwtDecoderReturn {
+interface JwtDecoderState {
   token: string;
   result: JwtDecodeResult | null;
   error: string | null;
   isLoading: boolean;
+}
+
+interface UseJwtDecoderReturn extends JwtDecoderState {
   setToken: (value: string) => void;
   decode: () => void;
   clear: () => void;
 }
 
+const initialState: JwtDecoderState = {
+  token: '',
+  result: null,
+  error: null,
+  isLoading: false,
+};
+
 export const useJwtDecoder = (): UseJwtDecoderReturn => {
-  const [token, setToken] = useState('');
-  const [result, setResult] = useState<JwtDecodeResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [state, setState] = useState<JwtDecoderState>(initialState);
+
+  const setToken = useCallback((token: string) => {
+    setState((prev) => ({
+      ...prev,
+      token,
+      result: null,
+      error: null,
+    }));
+  }, []);
 
   const decode = useCallback(() => {
-    setError(null);
-    setResult(null);
+    setState((prev) => ({
+      ...prev,
+      result: null,
+      error: null,
+    }));
 
-    if (!token.trim()) {
-      setError('Enter a JWT token.');
+    if (!state.token.trim()) {
+      setState((prev) => ({
+        ...prev,
+        error: 'Enter a JWT token.',
+      }));
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      const decodedResult = decodeJwt(token);
-      setResult(decodedResult);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to decode JWT token.',
-      );
-    } finally {
-      setIsLoading(false);
+      const result = decodeJwt(state.token);
+
+      setState((prev) => ({
+        ...prev,
+        result,
+        error: null,
+      }));
+    } catch (error) {
+      setState((prev) => ({
+        ...prev,
+        result: null,
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Failed to decode JWT token.',
+      }));
     }
-  }, [token]);
+  }, [state.token]);
 
   const clear = useCallback(() => {
-    setToken('');
-    setResult(null);
-    setError(null);
-    setIsLoading(false);
+    setState(initialState);
   }, []);
 
   return {
-    token,
-    result,
-    error,
-    isLoading,
+    ...state,
     setToken,
     decode,
     clear,
