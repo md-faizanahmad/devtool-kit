@@ -98,6 +98,12 @@ const tools: Tool[] = [
     path: '/css-formatter',
     icon: FileCode,
   },
+  {
+    title: 'JWT Decoder',
+    description: 'Decode JWT headers, payloads, and inspect token claims.',
+    path: '/jwt-decoder',
+    icon: KeyRound,
+  },
 ];
 
 export default function HomePage() {
