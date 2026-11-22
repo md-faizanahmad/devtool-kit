@@ -14,7 +14,7 @@ import RegexTester from './features/regex-tester/RegexTester';
 import MarkdownPreviewer from './features/markdown-previewer/MarkdownPreviewer';
 import HtmlFormatter from './features/html-formatter/HtmlFormatter';
 import CssFormatter from './features/css-formatter/CssFormatter';
-import { JwtDecoder } from './features/jwt-decoder/JwtDecoder';
+import JwtDecoder from './features/jwt-decoder/JwtDecoder';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
