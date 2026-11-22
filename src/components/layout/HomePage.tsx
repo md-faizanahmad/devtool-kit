@@ -14,6 +14,7 @@ import {
   CodeXml,
   FileCode,
   Timer,
+  FileCode2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -111,6 +112,12 @@ const tools: Tool[] = [
       'Generate and understand cron expressions for scheduled tasks.',
     path: '/cron-generator',
     icon: Timer,
+  },
+  {
+    title: 'JSON to TypeScript',
+    description: 'Convert JSON data into TypeScript interfaces and types.',
+    path: '/json-to-typescript',
+    icon: FileCode2,
   },
 ];
 

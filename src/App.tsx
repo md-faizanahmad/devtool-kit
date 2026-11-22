@@ -16,6 +16,7 @@ import HtmlFormatter from './features/html-formatter/HtmlFormatter';
 import CssFormatter from './features/css-formatter/CssFormatter';
 import JwtDecoder from './features/jwt-decoder/JwtDecoder';
 import CronGenerator from './features/cron-generator/CronGenerator';
+import JsonToTypescript from './features/json-to-typescript/JsonToTypescript';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -41,6 +42,7 @@ function App() {
       <Route path="/css-formatter" element={<CssFormatter />} />
       <Route path="/jwt-decoder" element={<JwtDecoder />} />
       <Route path="/cron-generator" element={<CronGenerator />} />
+      <Route path="/json-to-typescript" element={<JsonToTypescript />} />
     </Routes>
   );
 }
