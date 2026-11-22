@@ -13,6 +13,7 @@ import {
   FileText,
   CodeXml,
   FileCode,
+  Timer,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -103,6 +104,13 @@ const tools: Tool[] = [
     description: 'Decode JWT headers, payloads, and inspect token claims.',
     path: '/jwt-decoder',
     icon: KeyRound,
+  },
+  {
+    title: 'Cron Generator',
+    description:
+      'Generate and understand cron expressions for scheduled tasks.',
+    path: '/cron-generator',
+    icon: Timer,
   },
 ];
 
