@@ -3,14 +3,22 @@ import AppLayout from '@/components/layout/AppLayout';
 import ActionButton from '@/shared/ActionButton';
 import BackToTools from '@/shared/BackToTools';
 import FeedbackMessage from '@/shared/FeedbackMessage';
+import ApiResponse from './ApiResponse';
 import type { HttpMethod } from './api-request.types';
 import { useApiRequest } from './hooks/useApiRequest';
 
 const HTTP_METHODS: HttpMethod[] = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
 const ApiRequestBuilder = () => {
-  const { request, error, success, isLoading, updateRequest, sendRequest } =
-    useApiRequest();
+  const {
+    request,
+    response,
+    error,
+    success,
+    isLoading,
+    updateRequest,
+    sendRequest,
+  } = useApiRequest();
 
   const addHeader = () => {
     updateRequest({
@@ -194,6 +202,8 @@ const ApiRequestBuilder = () => {
         {success && (
           <FeedbackMessage variant="success">{success}</FeedbackMessage>
         )}
+
+        <ApiResponse response={response} />
       </div>
     </AppLayout>
   );
