@@ -15,6 +15,7 @@ import {
   FileCode,
   Timer,
   FileCode2,
+  Database,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -118,6 +119,13 @@ const tools: Tool[] = [
     description: 'Convert JSON data into TypeScript interfaces and types.',
     path: '/json-to-typescript',
     icon: FileCode2,
+  },
+  {
+    title: 'JSON Mock Data Generator',
+    description:
+      'Generate realistic mock users, products, addresses, and API responses.',
+    path: '/json-mock-data-generator',
+    icon: Database,
   },
 ];
 

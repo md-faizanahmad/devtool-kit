@@ -17,6 +17,7 @@ import CssFormatter from './features/css-formatter/CssFormatter';
 import JwtDecoder from './features/jwt-decoder/JwtDecoder';
 import CronGenerator from './features/cron-generator/CronGenerator';
 import JsonToTypescript from './features/json-to-typescript/JsonToTypescript';
+import JsonMockDataGenerator from './features/json-mock-data-generator/JsonMockDataGenerator';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -43,6 +44,10 @@ function App() {
       <Route path="/jwt-decoder" element={<JwtDecoder />} />
       <Route path="/cron-generator" element={<CronGenerator />} />
       <Route path="/json-to-typescript" element={<JsonToTypescript />} />
+      <Route
+        path="/json-mock-data-generator"
+        element={<JsonMockDataGenerator />}
+      />
     </Routes>
   );
 }
