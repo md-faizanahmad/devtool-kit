@@ -1,11 +1,7 @@
-import type {
-  ApiRequestConfig,
-  ApiRequestResult,
-  ApiResponseData,
-} from '../api-request.types';
+import type { ApiRequestConfig, ApiRequestResult } from '../api-request.types';
 
 /**
- * Executes an HTTP request and returns its response.
+ * Executes an API request through the background service worker.
  */
 export const executeApiRequest = async (
   request: ApiRequestConfig,
@@ -37,7 +33,7 @@ export const executeApiRequest = async (
     };
   }
 
-  if (method !== 'GET' && method !== 'DELETE' && body.trim()) {
+  if (!['GET', 'DELETE'].includes(method) && body.trim()) {
     try {
       JSON.parse(body);
     } catch {
@@ -48,13 +44,13 @@ export const executeApiRequest = async (
     }
   }
 
-  const requestHeaders = new Headers();
+  const requestHeaders: Record<string, string> = {};
 
   try {
     headers
       .filter((header) => header.enabled && header.key.trim())
       .forEach((header) => {
-        requestHeaders.set(header.key.trim(), header.value);
+        requestHeaders[header.key.trim()] = header.value;
       });
   } catch {
     return {
@@ -63,57 +59,18 @@ export const executeApiRequest = async (
     };
   }
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-  const startTime = performance.now();
-
   try {
-    const fetchResponse = await fetch(parsedUrl.toString(), {
+    return (await chrome.runtime.sendMessage({
+      type: 'API_REQUEST',
+      url: parsedUrl.toString(),
       method,
       headers: requestHeaders,
-      body: ['GET', 'DELETE'].includes(method) ? undefined : body || undefined,
-      signal: controller.signal,
-    });
-
-    const responseBody = await fetchResponse.text();
-    const duration = Math.round(performance.now() - startTime);
-
-    const responseHeaders: Record<string, string> = {};
-
-    fetchResponse.headers.forEach((value, key) => {
-      responseHeaders[key] = value;
-    });
-
-    const response: ApiResponseData = {
-      status: fetchResponse.status,
-      statusText: fetchResponse.statusText,
-      headers: responseHeaders,
-      body: responseBody,
-      duration,
-      size: new Blob([responseBody]).size,
-    };
-
-    return {
-      response,
-      error: null,
-    };
-  } catch (error) {
-    if (error instanceof Error && error.name === 'AbortError') {
-      return {
-        response: null,
-        error: 'Request timed out after 30 seconds.',
-      };
-    }
-
+      body: body || undefined,
+    })) as ApiRequestResult;
+  } catch {
     return {
       response: null,
-      error:
-        error instanceof Error
-          ? error.message
-          : 'Failed to execute API request. Check the URL and network connection.',
+      error: 'Unable to communicate with the background service worker.',
     };
-  } finally {
-    clearTimeout(timeoutId);
   }
 };
