@@ -15,6 +15,7 @@ import {
   FileCode,
   Timer,
   FileCode2,
+  Globe,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -118,6 +119,13 @@ const tools: Tool[] = [
     description: 'Convert JSON data into TypeScript interfaces and types.',
     path: '/json-to-typescript',
     icon: FileCode2,
+  },
+
+  {
+    title: 'API Request Builder',
+    description: 'Build HTTP requests and inspect API responses.',
+    path: '/api-request-builder',
+    icon: Globe,
   },
 ];
 
