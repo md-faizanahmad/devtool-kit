@@ -16,6 +16,7 @@ import {
   Timer,
   FileCode2,
   Globe,
+  Database,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -120,12 +121,18 @@ const tools: Tool[] = [
     path: '/json-to-typescript',
     icon: FileCode2,
   },
-
   {
     title: 'API Request Builder',
     description: 'Build HTTP requests and inspect API responses.',
     path: '/api-request-builder',
     icon: Globe,
+  },
+  {
+    title: 'JSON Mock Data Generator',
+    description:
+      'Generate realistic mock users, products, addresses, and API responses.',
+    path: '/json-mock-data-generator',
+    icon: Database,
   },
 ];
 

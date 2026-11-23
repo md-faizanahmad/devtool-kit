@@ -17,6 +17,7 @@ import CssFormatter from './features/css-formatter/CssFormatter';
 import JwtDecoder from './features/jwt-decoder/JwtDecoder';
 import CronGenerator from './features/cron-generator/CronGenerator';
 import JsonToTypescript from './features/json-to-typescript/JsonToTypescript';
+import JsonMockDataGenerator from './features/json-mock-data-generator/JsonMockDataGenerator';
 import ApiRequestBuilder from './features/api-request-builder/ApiRequestBuilder';
 
 function App() {
@@ -45,6 +46,10 @@ function App() {
       <Route path="/cron-generator" element={<CronGenerator />} />
       <Route path="/json-to-typescript" element={<JsonToTypescript />} />
       <Route path="/api-request-builder" element={<ApiRequestBuilder />} />
+      <Route
+        path="/json-mock-data-generator"
+        element={<JsonMockDataGenerator />}
+      />
     </Routes>
   );
 }
