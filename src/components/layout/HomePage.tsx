@@ -18,6 +18,7 @@ import {
   Globe,
   Database,
   Code2,
+  FileJson,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -141,6 +142,12 @@ const tools: Tool[] = [
       'Format, beautify, and minify SQL queries with customizable options.',
     path: 'sql-formatter',
     icon: Database,
+  },
+  {
+    title: 'JSON Schema Generator',
+    description: 'Generate JSON Schema automatically from JSON data.',
+    path: '/json-schema-generator',
+    icon: FileJson,
   },
 ];
 

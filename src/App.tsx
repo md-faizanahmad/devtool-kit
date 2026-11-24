@@ -20,6 +20,7 @@ import JsonToTypescript from './features/json-to-typescript/JsonToTypescript';
 import ApiRequestBuilder from './features/api-request-builder/ApiRequestBuilder';
 import JsonMockDataGenerator from './features/json-mock-data-generator/JsonMockDataGenerator';
 import SqlFormatter from './features/sql-formatter/SqlFormatter';
+import JsonSchemaGenerator from './features/json-schema-generator/JsonSchemaGenerator';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -52,6 +53,7 @@ function App() {
         element={<JsonMockDataGenerator />}
       />
       <Route path="/sql-formatter" element={<SqlFormatter />} />
+      <Route path="/json-schema-generator" element={<JsonSchemaGenerator />} />
     </Routes>
   );
 }
