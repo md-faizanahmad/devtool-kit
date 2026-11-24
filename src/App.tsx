@@ -17,8 +17,9 @@ import CssFormatter from './features/css-formatter/CssFormatter';
 import JwtDecoder from './features/jwt-decoder/JwtDecoder';
 import CronGenerator from './features/cron-generator/CronGenerator';
 import JsonToTypescript from './features/json-to-typescript/JsonToTypescript';
-import JsonMockDataGenerator from './features/json-mock-data-generator/JsonMockDataGenerator';
 import ApiRequestBuilder from './features/api-request-builder/ApiRequestBuilder';
+import JsonMockDataGenerator from './features/json-mock-data-generator/JsonMockDataGenerator';
+import SqlFormatter from './features/sql-formatter/SqlFormatter';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -50,6 +51,7 @@ function App() {
         path="/json-mock-data-generator"
         element={<JsonMockDataGenerator />}
       />
+      <Route path="/sql-formatter" element={<SqlFormatter />} />
     </Routes>
   );
 }

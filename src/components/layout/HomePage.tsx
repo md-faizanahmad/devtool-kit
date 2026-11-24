@@ -17,6 +17,7 @@ import {
   FileCode2,
   Globe,
   Database,
+  Code2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -132,6 +133,13 @@ const tools: Tool[] = [
     description:
       'Generate realistic mock users, products, addresses, and API responses.',
     path: '/json-mock-data-generator',
+    icon: Code2,
+  },
+  {
+    title: 'SQL Formatter',
+    description:
+      'Format, beautify, and minify SQL queries with customizable options.',
+    path: 'sql-formatter',
     icon: Database,
   },
 ];
