@@ -42,3 +42,10 @@ export interface JsonSchema {
   additionalProperties?: boolean;
   [key: string]: unknown;
 }
+
+export interface JsonSchemaObject {
+  type: 'object';
+  properties: Record<string, unknown>;
+  required?: string[];
+  additionalProperties: boolean;
+}
