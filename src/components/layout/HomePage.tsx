@@ -19,6 +19,7 @@ import {
   Database,
   Code2,
   FileJson,
+  BookOpen,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import AppLayout from './AppLayout';
@@ -148,6 +149,13 @@ const tools: Tool[] = [
     description: 'Generate JSON Schema automatically from JSON data.',
     path: '/json-schema-generator',
     icon: FileJson,
+  },
+  {
+    title: 'OpenAPI Viewer',
+    description:
+      'Explore OpenAPI specifications, endpoints, parameters, and responses.',
+    path: '/openapi-viewer',
+    icon: BookOpen,
   },
 ];
 
