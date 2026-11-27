@@ -90,7 +90,7 @@ const CssToScssConverter = () => {
   background: #eee;
 }`}
               spellCheck={false}
-              className="min-h-[350px] w-full resize-y rounded-lg border border-border bg-input p-3 font-mono text-sm outline-none focus:border-primary"
+              className="min-h-87.5 w-full resize-y rounded-lg border border-border bg-input p-3 font-mono text-sm outline-none focus:border-primary"
             />
 
             <ActionButton onClick={convert} className="block">
@@ -109,7 +109,7 @@ const CssToScssConverter = () => {
               readOnly
               placeholder="Your converted SCSS will appear here..."
               spellCheck={false}
-              className="min-h-[350px] w-full resize-y rounded-lg border border-border bg-input p-3 font-mono text-sm outline-none"
+              className="min-h-87.5 w-full resize-y rounded-lg border border-border bg-input p-3 font-mono text-sm outline-none"
             />
 
             <div className="flex flex-wrap gap-2">
