@@ -168,40 +168,47 @@ const tools: Tool[] = [
 export default function HomePage() {
   return (
     <AppLayout>
-      <h2 className="text-2xl font-semibold">
-        Your tools.
-        <br />
-        One workspace.
-      </h2>
+      <div className="mx-auto w-full min-w-0 max-w-5xl">
+        <header className="space-y-2">
+          <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            Your tools.
+            <br />
+            One workspace.
+          </h2>
 
-      <p className="mt-3 text-sm leading-6 text-text-secondary">
-        Your everyday developer utilities in one place.
-      </p>
+          <p className="max-w-xl text-sm leading-6 text-text-secondary sm:text-base">
+            Your everyday developer utilities in one place.
+          </p>
+        </header>
 
-      <div className="mt-6 space-y-3">
-        {tools.map(({ title, description, path, icon: Icon }) => (
-          <Link
-            key={path}
-            to={path}
-            className="group flex items-center justify-between rounded-md border border-border p-4 transition-colors hover:bg-surface"
-          >
-            <div className="flex items-center gap-3">
-              <Icon size={20} className="text-primary" />
+        <div className="mt-6 space-y-2.5 sm:mt-8 sm:space-y-3">
+          {tools.map(({ title, description, path, icon: Icon }) => (
+            <Link
+              key={path}
+              to={path}
+              className="group flex min-w-0 items-center gap-3 rounded-lg border border-border p-3 transition-colors hover:bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:gap-4 sm:p-4"
+            >
+              <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary sm:size-10">
+                <Icon size={20} />
+              </div>
 
-              <div>
-                <h3 className="text-sm font-medium">{title}</h3>
-                <p className="mt-1 text-xs text-text-secondary">
+              <div className="min-w-0 flex-1">
+                <h3 className="wrap-break-word text-sm font-medium sm:text-base">
+                  {title}
+                </h3>
+
+                <p className="mt-1 wrap-break-word text-xs leading-5 text-text-secondary sm:text-sm">
                   {description}
                 </p>
               </div>
-            </div>
 
-            <ArrowRight
-              size={16}
-              className="text-text-muted transition-transform group-hover:translate-x-1"
-            />
-          </Link>
-        ))}
+              <ArrowRight
+                size={16}
+                className="ml-1 shrink-0 text-text-muted transition-transform group-hover:translate-x-1"
+              />
+            </Link>
+          ))}
+        </div>
       </div>
     </AppLayout>
   );
