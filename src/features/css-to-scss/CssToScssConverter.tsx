@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { ArrowRightLeft, Clipboard, Download, Trash2 } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowRightLeft,
+  Check,
+  Clipboard,
+  Code2,
+  Download,
+  Trash2,
+} from 'lucide-react';
 
 import AppLayout from '@/components/layout/AppLayout';
 import BackToTools from '@/shared/BackToTools';
@@ -11,6 +19,13 @@ const CssToScssConverter = () => {
   const { input, output, error, setInput, convert, clearAll } = useCssToScss();
 
   const [feedback, setFeedback] = useState('');
+  const [hasConverted, setHasConverted] = useState(false);
+
+  const handleConvert = () => {
+    setFeedback('');
+    convert();
+    setHasConverted(true);
+  };
 
   const handleCopy = async () => {
     if (!output) return;
@@ -43,6 +58,13 @@ const CssToScssConverter = () => {
   const handleClear = () => {
     clearAll();
     setFeedback('');
+    setHasConverted(false);
+  };
+
+  const handleInputChange = (value: string) => {
+    setInput(value);
+    setFeedback('');
+    setHasConverted(false);
   };
 
   return (
@@ -50,34 +72,37 @@ const CssToScssConverter = () => {
       <div className="mx-auto w-full max-w-6xl space-y-6">
         <BackToTools />
 
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-primary/10 p-2 text-primary">
-              <ArrowRightLeft size={22} />
-            </div>
-
-            <div>
-              <h1 className="text-2xl font-bold">CSS to SCSS Converter</h1>
-              <p className="text-sm text-text-secondary">
-                Convert CSS selectors into nested SCSS syntax.
-              </p>
-            </div>
+        <header className="flex items-start gap-3">
+          <div className="rounded-xl bg-primary/10 p-3 text-primary">
+            <ArrowRightLeft size={24} />
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <section className="space-y-3 rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-semibold">CSS Input</h2>
-              <span className="text-xs text-text-secondary">CSS</span>
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight">
+              CSS to SCSS Converter
+            </h1>
+            <p className="text-sm text-text-secondary">
+              Transform your CSS into clean, nested SCSS syntax.
+            </p>
+          </div>
+        </header>
+
+        <section className="overflow-hidden rounded-xl border border-border bg-card">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+            <div className="flex items-center gap-2">
+              <Code2 size={17} className="text-primary" />
+              <h2 className="text-sm font-semibold">CSS Editor</h2>
             </div>
 
+            <span className="rounded-md bg-input px-2.5 py-1 text-xs text-text-secondary">
+              CSS
+            </span>
+          </div>
+
+          <div className="p-4">
             <textarea
               value={input}
-              onChange={(event) => {
-                setInput(event.target.value);
-                setFeedback('');
-              }}
+              onChange={(event) => handleInputChange(event.target.value)}
               placeholder={`.container {
   padding: 20px;
 }
@@ -90,62 +115,99 @@ const CssToScssConverter = () => {
   background: #eee;
 }`}
               spellCheck={false}
-              className="min-h-87.5 w-full resize-y rounded-lg border border-border bg-input p-3 font-mono text-sm outline-none focus:border-primary"
+              aria-label="CSS input"
+              className="min-h-72 w-full resize-y rounded-lg border border-border bg-input p-4 font-mono text-sm leading-7 outline-none transition-colors placeholder:text-text-secondary/60 focus:border-primary"
             />
 
-            <ActionButton onClick={convert} className="block">
-              Convert to SCSS
-            </ActionButton>
-          </section>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs text-text-secondary">
+                {input.length} characters
+              </span>
 
-          <section className="space-y-3 rounded-xl border border-border bg-card p-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-semibold">SCSS Output</h2>
-              <span className="text-xs text-text-secondary">SCSS</span>
+              <div className="flex flex-wrap gap-2">
+                <ActionButton
+                  variant="ghost"
+                  onClick={handleClear}
+                  disabled={!input && !output}
+                  icon={<Trash2 size={15} />}
+                >
+                  Clear
+                </ActionButton>
+
+                <ActionButton
+                  onClick={handleConvert}
+                  disabled={!input.trim()}
+                  icon={<ArrowRight size={16} />}
+                >
+                  Convert to SCSS
+                </ActionButton>
+              </div>
             </div>
-
-            <textarea
-              value={output}
-              readOnly
-              placeholder="Your converted SCSS will appear here..."
-              spellCheck={false}
-              className="min-h-87.5 w-full resize-y rounded-lg border border-border bg-input p-3 font-mono text-sm outline-none"
-            />
-
-            <div className="flex flex-wrap gap-2">
-              <ActionButton
-                variant="secondary"
-                onClick={handleCopy}
-                disabled={!output}
-                icon={<Clipboard size={16} />}
-              >
-                Copy
-              </ActionButton>
-
-              <ActionButton
-                variant="secondary"
-                onClick={handleDownload}
-                disabled={!output}
-                icon={<Download size={16} />}
-              >
-                Download
-              </ActionButton>
-
-              <ActionButton
-                variant="ghost"
-                onClick={handleClear}
-                icon={<Trash2 size={16} />}
-              >
-                Clear
-              </ActionButton>
-            </div>
-          </section>
-        </div>
+          </div>
+        </section>
 
         {error && <FeedbackMessage variant="error">{error}</FeedbackMessage>}
 
+        {hasConverted && !error && output && (
+          <section className="overflow-hidden rounded-xl border border-border bg-card">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-3">
+              <div className="flex items-center gap-2">
+                <Code2 size={17} className="text-primary" />
+                <h2 className="text-sm font-semibold">SCSS Output</h2>
+                <span className="rounded-md bg-primary/10 px-2 py-1 text-xs text-primary">
+                  Converted
+                </span>
+              </div>
+
+              <span className="rounded-md bg-input px-2.5 py-1 text-xs text-text-secondary">
+                SCSS
+              </span>
+            </div>
+
+            <div className="p-4">
+              <textarea
+                value={output}
+                readOnly
+                spellCheck={false}
+                aria-label="SCSS output"
+                className="min-h-72 w-full resize-y rounded-lg border border-border bg-input p-4 font-mono text-sm leading-7 outline-none"
+              />
+
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <span className="text-xs text-text-secondary">
+                  {output.length} characters
+                </span>
+
+                <div className="flex flex-wrap gap-2">
+                  <ActionButton
+                    variant="secondary"
+                    onClick={handleCopy}
+                    icon={<Clipboard size={15} />}
+                  >
+                    Copy SCSS
+                  </ActionButton>
+
+                  <ActionButton
+                    onClick={handleDownload}
+                    icon={<Download size={15} />}
+                  >
+                    Download
+                  </ActionButton>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {feedback && (
-          <FeedbackMessage variant="success">{feedback}</FeedbackMessage>
+          <FeedbackMessage
+            variant={feedback.includes('Failed') ? 'error' : 'success'}
+          >
+            {feedback.includes('copied') && (
+              <Check size={14} className="mr-1 inline" />
+            )}
+            {feedback}
+          </FeedbackMessage>
         )}
       </div>
     </AppLayout>
