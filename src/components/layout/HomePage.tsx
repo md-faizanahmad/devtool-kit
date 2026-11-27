@@ -157,6 +157,12 @@ const tools: Tool[] = [
     path: '/openapi-viewer',
     icon: BookOpen,
   },
+  {
+    title: 'CSS to SCSS Converter',
+    description: 'Convert CSS into clean, nested SCSS syntax.',
+    path: '/css-to-scss',
+    icon: FileCode2,
+  },
 ];
 
 export default function HomePage() {

@@ -22,6 +22,7 @@ import JsonMockDataGenerator from './features/json-mock-data-generator/JsonMockD
 import SqlFormatter from './features/sql-formatter/SqlFormatter';
 import JsonSchemaGenerator from './features/json-schema-generator/JsonSchemaGenerator';
 import OpenApiViewer from './features/openapi-viewer/OpenApiViewer';
+import CssToScssConverter from './features/css-to-scss/CssToScssConverter';
 
 function App() {
   const loadSettings = useAppStore((state) => state.loadSettings);
@@ -56,6 +57,7 @@ function App() {
       <Route path="/sql-formatter" element={<SqlFormatter />} />
       <Route path="/json-schema-generator" element={<JsonSchemaGenerator />} />
       <Route path="/openapi-viewer" element={<OpenApiViewer />} />
+      <Route path="/css-to-scss" element={<CssToScssConverter />} />
     </Routes>
   );
 }
