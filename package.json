@@ -18,6 +18,7 @@
     "jsonrepair": "^3.15.0",
     "lucide-react": "^1.72.0",
     "marked": "^18.2.1",
+    "postcss": "^8.5.34",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router": "^8.5.1",
