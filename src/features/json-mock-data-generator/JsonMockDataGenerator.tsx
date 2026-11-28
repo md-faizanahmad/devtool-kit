@@ -231,7 +231,7 @@ const JsonMockDataGenerator = () => {
           </ActionButton>
         </div>
 
-        <MockDataPreview output={output} />
+        <MockDataPreview output={output} format={config.format} />
       </div>
     </AppLayout>
   );
