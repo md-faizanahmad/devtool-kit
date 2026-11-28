@@ -6,6 +6,7 @@ import FeedbackMessage from '@/shared/FeedbackMessage';
 import MockDataPreview from './MockDataPreview';
 import { useMockData } from './hooks/useMockData';
 import type {
+  MockDataFormat,
   MockDataTemplate,
   MockField,
   MockFieldType,
@@ -21,11 +22,21 @@ const FIELD_TYPES: MockFieldType[] = [
   'date',
 ];
 
+const OUTPUT_FORMATS: { value: MockDataFormat; label: string }[] = [
+  { value: 'json', label: 'JSON' },
+  { value: 'csv', label: 'CSV' },
+  { value: 'xml', label: 'XML' },
+  { value: 'yaml', label: 'YAML' },
+  { value: 'sql', label: 'SQL' },
+  { value: 'html', label: 'HTML' },
+];
+
 const JsonMockDataGenerator = () => {
   const {
     config,
     output,
     error,
+    updateConfig,
     setTemplate,
     setCount,
     addField,
@@ -53,11 +64,11 @@ const JsonMockDataGenerator = () => {
 
         <div>
           <h1 className="text-xl font-semibold text-text-primary">
-            JSON Mock Data Generator
+            Mock Data Generator
           </h1>
           <p className="mt-1 text-sm text-text-secondary">
-            Generate realistic mock users, products, addresses, and API
-            responses.
+            Generate realistic mock data in JSON, CSV, XML, YAML, SQL, and HTML
+            formats.
           </p>
         </div>
 
@@ -99,6 +110,32 @@ const JsonMockDataGenerator = () => {
               onChange={(event) => setCount(Number(event.target.value))}
               className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-text-primary"
             />
+          </div>
+
+          <div className="space-y-2">
+            <label
+              htmlFor="output-format"
+              className="text-sm font-medium text-text-primary"
+            >
+              Output Format
+            </label>
+
+            <select
+              id="output-format"
+              value={config.format}
+              onChange={(event) =>
+                updateConfig({
+                  format: event.target.value as MockDataFormat,
+                })
+              }
+              className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-text-primary"
+            >
+              {OUTPUT_FORMATS.map((format) => (
+                <option key={format.value} value={format.value}>
+                  {format.label}
+                </option>
+              ))}
+            </select>
           </div>
         </section>
 
@@ -185,7 +222,9 @@ const JsonMockDataGenerator = () => {
         {error && <FeedbackMessage variant="error">{error}</FeedbackMessage>}
 
         <div className="flex flex-wrap gap-2">
-          <ActionButton onClick={generateData}>Generate JSON</ActionButton>
+          <ActionButton onClick={generateData}>
+            Generate {config.format.toUpperCase()}
+          </ActionButton>
 
           <ActionButton variant="secondary" onClick={clearData}>
             Clear
