@@ -1,13 +1,52 @@
 import { Check, Copy, Download } from 'lucide-react';
 import { useState } from 'react';
 import ActionButton from '@/shared/ActionButton';
+import type { MockDataFormat } from './mock-data.types';
 
 interface MockDataPreviewProps {
   output: string;
+  format: MockDataFormat;
 }
 
-const MockDataPreview = ({ output }: MockDataPreviewProps) => {
+const FORMAT_CONFIG: Record<
+  MockDataFormat,
+  { label: string; extension: string; mimeType: string }
+> = {
+  json: {
+    label: 'JSON',
+    extension: 'json',
+    mimeType: 'application/json',
+  },
+  csv: {
+    label: 'CSV',
+    extension: 'csv',
+    mimeType: 'text/csv',
+  },
+  xml: {
+    label: 'XML',
+    extension: 'xml',
+    mimeType: 'application/xml',
+  },
+  yaml: {
+    label: 'YAML',
+    extension: 'yaml',
+    mimeType: 'application/yaml',
+  },
+  sql: {
+    label: 'SQL',
+    extension: 'sql',
+    mimeType: 'application/sql',
+  },
+  html: {
+    label: 'HTML',
+    extension: 'html',
+    mimeType: 'text/html',
+  },
+};
+
+const MockDataPreview = ({ output, format }: MockDataPreviewProps) => {
   const [copied, setCopied] = useState(false);
+  const formatConfig = FORMAT_CONFIG[format];
 
   if (!output) return null;
 
@@ -23,15 +62,17 @@ const MockDataPreview = ({ output }: MockDataPreviewProps) => {
 
   const downloadOutput = () => {
     const blob = new Blob([output], {
-      type: 'application/json',
+      type: `${formatConfig.mimeType};charset=utf-8`,
     });
 
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
 
     link.href = url;
-    link.download = 'mock-data.json';
+    link.download = `mock-data.${formatConfig.extension}`;
+    document.body.appendChild(link);
     link.click();
+    link.remove();
 
     URL.revokeObjectURL(url);
   };
@@ -40,7 +81,7 @@ const MockDataPreview = ({ output }: MockDataPreviewProps) => {
     <section className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-sm font-semibold text-text-primary">
-          Generated JSON
+          Generated {formatConfig.label}
         </h2>
 
         <div className="flex gap-2">

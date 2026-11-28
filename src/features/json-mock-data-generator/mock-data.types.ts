@@ -4,6 +4,8 @@ export type MockDataTemplate =
 export type MockFieldType =
   'string' | 'number' | 'boolean' | 'email' | 'uuid' | 'date';
 
+export type MockDataFormat = 'json' | 'csv' | 'xml' | 'yaml' | 'sql' | 'html';
+
 export interface MockField {
   id: string;
   name: string;
@@ -15,6 +17,7 @@ export interface MockDataConfig {
   template: MockDataTemplate;
   count: number;
   fields: MockField[];
+  format: MockDataFormat;
 }
 
 export interface MockDataState {

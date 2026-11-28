@@ -6,11 +6,13 @@ import type {
   MockDataTemplate,
 } from '../mock-data.types';
 import { generateCustomData, generateTemplateData } from '../utils/templates';
+import { formatMockData } from '../utils/formatters';
 
 const initialConfig: MockDataConfig = {
   template: 'users',
   count: 10,
   fields: [],
+  format: 'json',
 };
 
 export const useMockData = () => {
@@ -65,9 +67,11 @@ export const useMockData = () => {
         ? generateCustomData(state.config.fields, state.config.count)
         : generateTemplateData(state.config.template, state.config.count);
 
+      const output = formatMockData(data, state.config.format);
+
       setState((previous) => ({
         ...previous,
-        output: JSON.stringify(data, null, 2),
+        output,
         error: null,
       }));
     } catch {

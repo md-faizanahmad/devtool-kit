@@ -131,9 +131,9 @@ const tools: Tool[] = [
     icon: Globe,
   },
   {
-    title: 'JSON Mock Data Generator',
+    title: 'Mock Data Generator',
     description:
-      'Generate realistic mock users, products, addresses, and API responses.',
+      'Generate realistic mock data in JSON, CSV, XML, YAML, SQL, and HTML formats.',
     path: '/json-mock-data-generator',
     icon: Code2,
   },
