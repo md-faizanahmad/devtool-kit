@@ -11,6 +11,7 @@ const initialConfig: MockDataConfig = {
   template: 'users',
   count: 10,
   fields: [],
+  format: 'json',
 };
 
 export const useMockData = () => {
